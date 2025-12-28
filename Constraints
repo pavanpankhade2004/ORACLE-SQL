@@ -1,0 +1,309 @@
+                                 
+DATE=28-12-25
+TOPIC=***ON DELETE CASCADE ***
+
+
+SQL> CREATE TABLE COLLEGE12(CCODE VARCHAR2(10) PRIMARY KEY,LOC VARCHAR2(10));
+
+Table created.
+
+SQL> INSERT INTO COLLEGE12 VALUES('CBIT','KARMAD');
+
+1 row created.
+
+SQL> INSERT INTO COLLEGE12 VALUES('VBIT','BAJAJNAGAR');
+
+1 row created.
+
+SQL> INSERT INTO COLLEGE12 VALUES('KBIT','RAMNAGAR');
+
+1 row created.
+
+SQL> SELECT*FROM COLLEGE12;
+
+CCODE      LOC
+---------- ----------
+CBIT       KARMAD
+VBIT       BAJAJNAGAR
+KBIT       RAMNAGAR
+
+SQL> CREATE TABLE STUDENTS12(STID VARCHAR2(5) PRIMARY KEY,SNAME VARCHAR2(10),CCODE VARCHAR2(10) REFERENCES COLLEGE12(CCODE)ON DELETE CASCADE);
+
+Table created.
+
+SQL> INSERT INTO STUDENTS12 VALUES(1011,'PAVAN','VBIT');
+
+1 row created.
+
+SQL> INSERT INTO STUDENTS12 VALUES(1012,'SURAJ','KBIT');
+
+1 row created.
+
+SQL> INSERT INTO STUDENTS12 VALUES(1013,'RUSHIKESH','VBIT');
+
+1 row created.
+
+
+SQL> SELECT*FROM STUDENTS12;
+
+STID  SNAME      CCODE
+----- ---------- ----------
+1011  PAVAN      VBIT
+1012  SURAJ      KBIT
+1013  RUSHIKESH  VBIT
+
+SQL> SELECT*FROM COLLEGE12;
+
+CCODE      LOC
+---------- ----------
+CBIT       KARMAD
+VBIT       BAJAJNAGAR
+KBIT       RAMNAGAR
+
+SQL> DELETE FROM COLLEGE12 WHERE CCODE='CBIT';
+
+1 row deleted.
+
+SQL> SELECT*FROM COLLEGE12;
+
+CCODE      LOC
+---------- ----------
+VBIT       BAJAJNAGAR
+KBIT       RAMNAGAR
+
+==========================================================================================================================================================================
+
+***ON DELETE SET NULL ***
+
+
+SQL> CREATE TABLE COLLEGE13(CCODE VARCHAR2(10) PRIMARY KEY,LOC VARCHAR2(10));
+
+Table created.
+
+SQL> INSERT INTO COLLEGE13 VALUES('CBIT','MADHAPUR');
+
+1 row created.
+
+SQL> INSERT INTO COLLEGE13 VALUES('VBIT','SRNAGAR');
+
+1 row created.
+
+SQL> INSERT INTO COLLEGE13 VALUES('KBIT','AMEERPET');
+
+1 row created.
+
+SQL> SELECT * FROM COLLEGE13;
+
+CCODE      LOC
+---------- ----------
+CBIT       MADHAPUR
+VBIT       SRNAGAR
+KBIT       AMEERPET
+
+SQL> CREATE TABLE STUDENTS13(STID VARCHAR2(10) PRIMARY KEY,SNAME VARCHAR2(10),CCODE VARCHAR2(10) REFERENCES COLLEGE13(CCODE)ON DELETE SET NULL);
+
+Table created.
+
+SQL> INSERT INTO STUDENTS13 VALUES(101,'RAM','VBIT');
+
+1 row created.
+
+SQL> INSERT INTO STUDENTS13 VALUES(102,'ROHIT','CBIT');
+
+1 row created.
+
+SQL> INSERT INTO STUDENTS13 VALUES(103,'OM','KBIT');
+
+1 row created.
+
+SQL> SELECT * FROM STUDENTS13;
+
+STID       SNAME      CCODE
+---------- ---------- ----------
+101        RAM        VBIT
+102        ROHIT      CBIT
+103        OM         KBIT
+
+SQL> SELECT * FROM COLLEGE13;                                 
+DATE=28-12-25
+TOPIC=***ON DELETE CASCADE ***
+
+
+SQL> CREATE TABLE COLLEGE12(CCODE VARCHAR2(10) PRIMARY KEY,LOC VARCHAR2(10));
+
+Table created.
+
+SQL> INSERT INTO COLLEGE12 VALUES('CBIT','KARMAD');
+
+1 row created.
+
+SQL> INSERT INTO COLLEGE12 VALUES('VBIT','BAJAJNAGAR');
+
+1 row created.
+
+SQL> INSERT INTO COLLEGE12 VALUES('KBIT','RAMNAGAR');
+
+1 row created.
+
+SQL> SELECT*FROM COLLEGE12;
+
+CCODE      LOC
+---------- ----------
+CBIT       KARMAD
+VBIT       BAJAJNAGAR
+KBIT       RAMNAGAR
+
+SQL> CREATE TABLE STUDENTS12(STID VARCHAR2(5) PRIMARY KEY,SNAME VARCHAR2(10),CCODE VARCHAR2(10) REFERENCES COLLEGE12(CCODE)ON DELETE CASCADE);
+
+Table created.
+
+SQL> INSERT INTO STUDENTS12 VALUES(1011,'PAVAN','VBIT');
+
+1 row created.
+
+SQL> INSERT INTO STUDENTS12 VALUES(1012,'SURAJ','KBIT');
+
+1 row created.
+
+SQL> INSERT INTO STUDENTS12 VALUES(1013,'RUSHIKESH','VBIT');
+
+1 row created.
+
+
+SQL> SELECT*FROM STUDENTS12;
+
+STID  SNAME      CCODE
+----- ---------- ----------
+1011  PAVAN      VBIT
+1012  SURAJ      KBIT
+1013  RUSHIKESH  VBIT
+
+SQL> SELECT*FROM COLLEGE12;
+
+CCODE      LOC
+---------- ----------
+CBIT       KARMAD
+VBIT       BAJAJNAGAR
+KBIT       RAMNAGAR
+
+SQL> DELETE FROM COLLEGE12 WHERE CCODE='CBIT';
+
+1 row deleted.
+
+SQL> SELECT*FROM COLLEGE12;
+
+CCODE      LOC
+---------- ----------
+VBIT       BAJAJNAGAR
+KBIT       RAMNAGAR
+
+==========================================================================================================================================================================
+
+***ON DELETE SET NULL ***
+
+
+SQL> CREATE TABLE COLLEGE13(CCODE VARCHAR2(10) PRIMARY KEY,LOC VARCHAR2(10));
+
+Table created.
+
+SQL> INSERT INTO COLLEGE13 VALUES('CBIT','MADHAPUR');
+
+1 row created.
+
+SQL> INSERT INTO COLLEGE13 VALUES('VBIT','SRNAGAR');
+
+1 row created.
+
+SQL> INSERT INTO COLLEGE13 VALUES('KBIT','AMEERPET');
+
+1 row created.
+
+SQL> SELECT * FROM COLLEGE13;
+
+CCODE      LOC
+---------- ----------
+CBIT       MADHAPUR
+VBIT       SRNAGAR
+KBIT       AMEERPET
+
+SQL> CREATE TABLE STUDENTS13(STID VARCHAR2(10) PRIMARY KEY,SNAME VARCHAR2(10),CCODE VARCHAR2(10) REFERENCES COLLEGE13(CCODE)ON DELETE SET NULL);
+
+Table created.
+
+SQL> INSERT INTO STUDENTS13 VALUES(101,'RAM','VBIT');
+
+1 row created.
+
+SQL> INSERT INTO STUDENTS13 VALUES(102,'ROHIT','CBIT');
+
+1 row created.
+
+SQL> INSERT INTO STUDENTS13 VALUES(103,'OM','KBIT');
+
+1 row created.
+
+SQL> SELECT * FROM STUDENTS13;
+
+STID       SNAME      CCODE
+---------- ---------- ----------
+101        RAM        VBIT
+102        ROHIT      CBIT
+103        OM         KBIT
+
+SQL> SELECT * FROM COLLEGE13;
+
+CCODE      LOC
+---------- ----------
+CBIT       MADHAPUR
+VBIT       SRNAGAR
+KBIT       AMEERPET
+
+SQL> DELETE FROM COLLEGE13 WHERE CCODE='CBIT';
+
+1 row deleted.
+
+SQL> SELECT * FROM COLLEGE13;
+
+CCODE      LOC
+---------- ----------
+VBIT       SRNAGAR
+KBIT       AMEERPET
+
+SQL> DELETE FROM COLLEGE13 WHERE CCODE='KBIT';
+
+1 row deleted.
+
+SQL> SELECT * FROM COLLEGE13;
+
+CCODE      LOC
+---------- ----------
+VBIT       SRNAGAR
+===========================================================================================================================================================================================
+
+CCODE      LOC
+---------- ----------
+CBIT       MADHAPUR
+VBIT       SRNAGAR
+KBIT       AMEERPET
+
+SQL> DELETE FROM COLLEGE13 WHERE CCODE='CBIT';
+
+1 row deleted.
+
+SQL> SELECT * FROM COLLEGE13;
+
+CCODE      LOC
+---------- ----------
+VBIT       SRNAGAR
+KBIT       AMEERPET
+
+SQL> DELETE FROM COLLEGE13 WHERE CCODE='KBIT';
+
+1 row deleted.
+
+SQL> SELECT * FROM COLLEGE13;
+
+CCODE      LOC
+---------- ----------
+VBIT       SRNAGAR
+===========================================================================================================================================================================================
