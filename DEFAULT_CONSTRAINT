@@ -1,0 +1,119 @@
+       **DEFAULT CONSTRAINTS**
+
+SQL> CREATE TABLE TEST11(SNO NUMBER,BASIC_PRICE NUMBER(8,2)DEFAULT 5000, CITY VARCHAR2(10) DEFAULT 'HYD');
+
+Table created.
+
+SQL> INSERT INTO TEST11 VALUES(1,25000,'PUNE');
+
+1 row created.
+
+SQL> INSERT INTO TEST11 (SNO, BASIC_PRICE,)VALUES(2,12000);
+INSERT INTO TEST11 (SNO, BASIC_PRICE,)VALUES(2,12000)
+                                     
+
+SQL> INSERT INTO TEST11 (SNO, BASIC_PRICE,) VALUES(2,12000);
+INSERT INTO TEST11 (SNO, BASIC_PRICE,) VALUES(2,12000)
+                                     
+
+SQL> INSERT INTO TEST11 (SNO, BASIC_PRICE) VALUES(2,12000);
+
+1 row created.
+
+SQL> INSERT INTO TEST11 (SNO) VALUES(3);
+
+1 row created.
+
+SQL> SELECT*FROM TEST11;
+
+       SNO BASIC_PRICE CITY
+---------- ----------- ----------
+         1       25000 PUNE
+         2       12000 HYD
+         3        5000 HYD
+
+SQL> CREATE TABLE TEST12(REG NUM NUMBER(5),REGFEE NUMBER(6,2));
+CREATE TABLE TEST12(REG NUM NUMBER(5),REGFEE NUMBER(6,2))
+                            
+ERROR at line 1:
+ORA-00907: missing right parenthesis
+
+
+SQL> CREATE TABLE TEST12(REGNUM NUMBER(5),REGFEE NUMBER(6,2));
+
+Table created.
+
+SQL> ALTER TABLE TEST12 MODIFY REGFEE DEFAULT 500;
+
+Table altered.
+
+SQL> INSERT INTO TEST12 (REGNUM)VALUES(10001);
+
+1 row created.
+
+SQL> SELECT*FROM TEST12;
+
+    REGNUM     REGFEE
+---------- ----------
+     10001        500
+
+SQL> DESC USER_TAB_COLUMNS;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ TABLE_NAME                                NOT NULL VARCHAR2(128)
+ COLUMN_NAME                               NOT NULL VARCHAR2(128)
+ DATA_TYPE                                          VARCHAR2(128)
+ DATA_TYPE_MOD                                      VARCHAR2(3)
+ DATA_TYPE_OWNER                                    VARCHAR2(128)
+ DATA_LENGTH                               NOT NULL NUMBER
+ DATA_PRECISION                                     NUMBER
+ DATA_SCALE                                         NUMBER
+ NULLABLE                                           VARCHAR2(1)
+ COLUMN_ID                                          NUMBER
+ DEFAULT_LENGTH                                     NUMBER
+ DATA_DEFAULT                                       LONG
+ NUM_DISTINCT                                       NUMBER
+ LOW_VALUE                                          RAW(1000)
+ HIGH_VALUE                                         RAW(1000)
+ DENSITY                                            NUMBER
+ NUM_NULLS                                          NUMBER
+ NUM_BUCKETS                                        NUMBER
+ LAST_ANALYZED                                      DATE
+ SAMPLE_SIZE                                        NUMBER
+ CHARACTER_SET_NAME                                 VARCHAR2(44)
+ CHAR_COL_DECL_LENGTH                               NUMBER
+ GLOBAL_STATS                                       VARCHAR2(3)
+ USER_STATS                                         VARCHAR2(3)
+ AVG_COL_LEN                                        NUMBER
+ CHAR_LENGTH                                        NUMBER
+ CHAR_USED                                          VARCHAR2(1)
+ V80_FMT_IMAGE                                      VARCHAR2(3)
+ DATA_UPGRADED                                      VARCHAR2(3)
+ HISTOGRAM                                          VARCHAR2(15)
+ DEFAULT_ON_NULL                                    VARCHAR2(3)
+ IDENTITY_COLUMN                                    VARCHAR2(3)
+ EVALUATION_EDITION                                 VARCHAR2(128)
+ UNUSABLE_BEFORE                                    VARCHAR2(128)
+ UNUSABLE_BEGINNING                                 VARCHAR2(128)
+ COLLATION                                          VARCHAR2(100)
+
+SQL> SELECT COLUMN_NAME,DATA_DEFAULT FROM USER_TAB COLUMNS WHERE TABLE_NAME="TEST12";
+SELECT COLUMN_NAME,DATA_DEFAULT FROM USER_TAB COLUMNS WHERE TABLE_NAME="TEST12"
+                                     
+SQL> ALTERN TABLE TEST12 MODIFY REGFEE DEFAULT NULL;
+SP2-0734: unknown command beginning "ALTERN TAB..." - rest of line ignored.
+SQL> ALTER TABLE TEST12 MODIFY REGFEE DEFAULT NULL;
+
+Table altered.
+
+SQL> INSERT INTO TEST12(REGNUM)VALUES(10002);
+
+1 row created.
+
+SQL> SELECT*FROM TEST12;
+
+    REGNUM     REGFEE
+---------- ----------
+     10001        500
+     10002
+
