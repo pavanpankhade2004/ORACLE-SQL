@@ -1,0 +1,247 @@
+      DATE:30-12-25     ***SUBQUERIES***
+================================================================
+SQL> SELECT * FROM EMP;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800
+        20
+
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300
+        30
+
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500
+        30
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7566 JONES      MANAGER         7839 02-APR-81       2975
+        20
+
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400
+        30
+
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850
+        30
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450
+        10
+
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000
+        20
+
+      7839 KING       PRESIDENT            17-NOV-81       5000
+        10
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0
+        30
+
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100
+        20
+
+      7900 JAMES      CLERK           7698 03-DEC-81        950
+        30
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7902 FORD       ANALYST         7566 03-DEC-81       3000
+        20
+
+      7934 MILLER     CLERK           7782 23-JAN-82       1300
+        10
+
+
+14 rows selected.
+========================================================================================================
+Q1)WRITE A QUERY TO SHOW THE EMPLOYEES DETAILS WHO ARE GETTING THE 1ST HIGHEST SALARY?
+ANS:=
+**INNER QUERY
+SQL> SELECT MAX(SAL)FROM EMP;
+
+  MAX(SAL)
+----------
+      5000
+
+** SUBQUERY QUERY
+SQL> SELECT*FROM EMP WHERE SAL=(SELECT MAX(SAL)FROM EMP);
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7839 KING       PRESIDENT            17-NOV-81       5000
+        10
+
+======================================================================================================
+
+Q2)WAQ TO SHOW THE SENIOR MOST EMPLOYEES DETAILS FROM EMP TABLE?
+ANS:=
+SQL> MIN(HIREDATE)FROM EMP;
+SP2-0734: unknown command beginning "MIN(HIREDA..." - rest of line ignored.
+SQL> SELECT MIN(HIREDATE)FROM EMP;
+
+MIN(HIRED
+---------
+17-DEC-80
+
+
+SQL>
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE HIREDATE = (SELECT MIN(HIREDATE) FROM EMP);
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800
+        20
+
+============================================================================================================
+q3)WAQ TO SHOW EMPLOYEES DETAILS WHO JOB IS NAME AS THE EMPLOYEES SMITH JOB?
+
+ANS:=
+
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE JOB = (SELECT JOB FROM EMP WHERE ENAME = 'SMITH');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800
+        20
+
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100
+        20
+
+      7900 JAMES      CLERK           7698 03-DEC-81        950
+        30
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7934 MILLER     CLERK           7782 23-JAN-82       1300
+        10
+============================================================================================================
+Q4)WAQ TO  SHOW EMPLOYEE DETAILS WHOSE SALARY IS MORE THAN TO THE EMPLOYEE CLARK SALARY?
+ANS:=
+SQL> SELECT * FROM EMP WHERE SAL >(SELECT SAL FROM EMP WHERE ENAME='CLARK');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7566 JONES      MANAGER         7839 02-APR-81       2975
+        20
+
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850
+        30
+
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000
+        20
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7839 KING       PRESIDENT            17-NOV-81       5000
+        10
+
+      7902 FORD       ANALYST         7566 03-DEC-81       3000
+        20
+
+
+===========================================================================================================
+Q5)WAQ TO SHOW EMPLOYEES DETAAILS WHO JOIN BEFORE THE EMPLOYEE BLAKE JOIND?
+ANS:=
+
+ SQL> SELECT*FROM EMP WHERE HIREDATE < (SELECT HIREDATE FROM EMP WHERE ENAME='BLAKE');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800
+        20
+
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300
+        30
+
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500
+        30
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7566 JONES      MANAGER         7839 02-APR-81       2975
+        20
+===========================================================================================================
+Q6)WAQ TO SHOW EMPLOYEES DETAILS WHOSE SALARY IS MORE THAN THE AVERAGE SALARY OF ALL EMPLOYEES?
+ANS:=
+INNER QUERY-
+--------------
+SQL> SELECT AVG (SAL)FROM EMP;
+
+  AVG(SAL)
+----------
+2073.21429
+
+SUBQUERY-
+------------
+SQL> SELECT * FROM EMP WHERE SAL >(SELECT AVG(SAL)FROM EMP);
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7566 JONES      MANAGER         7839 02-APR-81       2975
+        20
+
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850
+        30
+
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450
+        10
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000
+        20
+
+      7839 KING       PRESIDENT            17-NOV-81       5000
+        10
+
+      7902 FORD       ANALYST         7566 03-DEC-81       3000
+        20
+
+
+6 rows selected.
+==========================================================================================================
