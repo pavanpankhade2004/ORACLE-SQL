@@ -1,0 +1,334 @@
+        ***SUBQUERY EXAMPLE***
+
+Q1) WAQ TO SHOW EMPLOYEES DETAILS WHO ARE GETTING MAXIMUM SALARY FROM THE DEPTNO IS 30?
+
+ANSWER:=
+
+SQL> SELECT MAX(SAL)FROM EMP WHERE DEPTNO=30; (INNER QUERY)
+
+  MAX(SAL)
+----------
+      2850
+
+SQL> SELECT*FROM EMP WHERE SAL=(SELECT MAX(SAL)FROM EMP WHERE DEPTNO=30);   //(SUBQUERY)
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850
+        30
+==================================================================
+Q2)WAQ TO DISPLAY EMPLOYEES DETAILS WHO ARE WORKING UNDER ACCOUNTING DEPARTMENT?
+
+ANSWER:=
+    SQL> SELECT*FROM EMP WHERE DEPTNO=(SELECT DEPTNO FROM DEPT WHERE DNAME='ACCOUNTING');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450
+        10
+
+      7839 KING       PRESIDENT            17-NOV-81       5000
+        10
+
+      7934 MILLER     CLERK           7782 23-JAN-82       1300
+        10
+
+====================================================================
+Q3)WAQ TO DISPLAY EMPLOYESS DETAILS WHO ARE WORKING UNDER CHICAGO LOCATION?
+
+ANSWER:=
+   SQL> SELECT * FROM EMP WHERE DEPTNO=(SELECT DEPTNO FROM DEPT WHERE LOC='CHICAGO');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300
+        30
+
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500
+        30
+
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400
+        30
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850
+        30
+
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500  0
+        30
+
+      7900 JAMES      CLERK           7698 03-DEC-81        950
+        30
+
+
+6 rows selected.
+
+====================================================================
+Q4)WAQ TO FIND OUT 2ND HIGHEST SALARY FROM EMP TABLE?
+
+ANSWER:=
+SQL> SELECT MAX(SAL)FROM EMP WHERE SAL < (SELECT MAX(SAL)FROM EMP);
+
+  MAX(SAL)
+----------
+      3000
+
+
+===================================================================
+Q5)WAQ TO SHOW EMPLOYEES DETAILS WHO ARE THE EARNING THE 2ND HIGHEST SALARY?
+
+ANS:
+ *INNER QUERY
+SQL> SELECT*FROM EMP WHERE SAL=3000;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000
+        20
+
+      7902 FORD       ANALYST         7566 03-DEC-81       3000
+        20
+    
+*SUBQUERY-
+
+SQL> SELECT*FROM EMP WHERE SAL=(SELECT MAX(SAL)FROM EMP WHERE SAL <(SELECT MAX(SAL)FROM EMP));
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000
+        20
+
+      7902 FORD       ANALYST         7566 03-DEC-81       3000
+        20
+
+=====================================================================Q6)WAQ TO SHOW EMPLOYEES DETAILS WHO ARE EARNING THE 3RD HIGHEST SALARY?
+
+ANS:
+ SQL> SELECT *
+  2  FROM EMP
+  3  WHERE SAL = (
+  4      SELECT MAX(SAL)
+  5      FROM EMP
+  6      WHERE SAL < (
+  7          SELECT MAX(SAL)
+  8          FROM EMP
+  9          WHERE SAL < (
+ 10              SELECT MAX(SAL)
+ 11              FROM EMP
+ 12          )
+ 13      )
+ 14  );
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7566 JONES      MANAGER         7839 02-APR-81       2975
+        20
+===================================================================
+
+***MULTIPLE ROW SUBQUERY***
+
+Q1)WAQ TO DISPLAY EMPLOYEES WHO JOB SAME AS THE EMPLOYEE SMITH ALLEN JOBS?
+ANSWER:
+
+
+SQL> SELECT*FROM EMP WHERE JOB IN(SELECT JOB FROM EMP WHERE ENAME IN('SMITH','ALLEN'));
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800
+        20
+
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100
+        20
+
+      7900 JAMES      CLERK           7698 03-DEC-81        950
+        30
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7934 MILLER     CLERK           7782 23-JAN-82       1300
+        10
+
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300
+        30
+
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500
+        30
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400
+        30
+
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500  0
+        30
+
+
+
+=====================================================================
+Q2)WAQ TO DISPLAY EMPLOYEES DETAILS WHO ARE GETTING MINIMUM,MAXIMUM SALARIES?
+ANSWER:
+*INNER QUERY-
+SQL> SELECT MIN(SAL),MAX(SAL)FROM EMP;
+
+  MIN(SAL)   MAX(SAL)
+---------- ----------
+       800       5000
+
+*SUBQUERY-
+SQL> SELECT*FROM EMP WHERE SAL IN(SELECT MIN(SAL)FROM EMP UNION SELECT MAX(SAL)FROM EMP);
+
+     EMPNO ENAME      JOB              MGR HIREDATE        SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7369 SMITH      CLERK           7902 17-DEC-80       800
+        20
+
+      7839 KING       PRESIDENT            17-NOV-81      5000
+        10
+
+
+====================================================================
+Q3)WAQ TO DISPLAY EMPLOYEES DETAILS WHO ARE WORKING UNDER"ACCOUNTING","SALES"?
+ANS:=
+*INNERQUERY
+SQL> SELECT DEPTNO FROM DEPT WHERE DNAME IN ('ACCOUNTING','SALES');
+
+    DEPTNO
+----------
+        10
+        30
+*SUBQUERY-
+SQL> SELECT*FROM EMP WHERE DEPTNO IN(SELECT DEPTNO FROM DEPT WHERE DNAME IN('ACCOUNTING','SALES'));
+
+     EMPNO ENAME      JOB              MGR HIREDATE        SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7782 CLARK      MANAGER         7839 09-JUN-81      2450
+        10
+
+      7839 KING       PRESIDENT            17-NOV-81      5000
+        10
+
+      7934 MILLER     CLERK           7782 23-JAN-82      1300
+        10
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE        SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81      1600        300
+        30
+
+      7521 WARD       SALESMAN        7698 22-FEB-81      1250        500
+        30
+
+      7654 MARTIN     SALESMAN        7698 28-SEP-81      1250       1400
+        30
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE        SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7698 BLAKE      MANAGER         7839 01-MAY-81      2850
+        30
+
+      7844 TURNER     SALESMAN        7698 08-SEP-81      1500   0
+        30
+
+      7900 JAMES      CLERK           7698 03-DEC-81       950
+        30
+
+====================================================================
+Q4)WAQ TO SHOW EMPLOYEES DETAILS WHO ARE GETTING MAXIMUM SALARY FROM EACH JOB WISE?
+ANS:=
+*INNER QUERY-
+SQL> SELECT JOB,MAX(SAL)FROM EMP GROUP BY JOB;
+
+JOB         MAX(SAL)
+--------- ----------
+CLERK           1300
+SALESMAN        1600
+MANAGER         2975
+ANALYST         3000
+PRESIDENT       5000
+
+SQL> SELECT*FROM EMP WHERE SAL IN(SELECT MAX(SAL)FROM EMP GROUP BY JOB);
+
+     EMPNO ENAME      JOB              MGR HIREDATE        SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81      1600        300
+        30
+
+      7566 JONES      MANAGER         7839 02-APR-81      2975
+        20
+
+      7788 SCOTT      ANALYST         7566 09-DEC-82      3000
+        20
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE        SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7839 KING       PRESIDENT            17-NOV-81      5000
+        10
+
+      7902 FORD       ANALYST         7566 03-DEC-81      3000
+        20
+
+      7934 MILLER     CLERK           7782 23-JAN-82      1300
+        10
+
+
+6 rows selected.
+
+=====================================================================
+Q5)WAQ TO SHOW THE SENIOR MOST EMPLOYEES DETAILS FROM EACH DEPTNO WISE?
+ANS:=
+  SQL> SELECT*FROM EMP WHERE HIREDATE IN(SELECT MIN(HIREDATE)FROM EMP GROUP BY DEPTNO);
+
+     EMPNO ENAME      JOB              MGR HIREDATE           SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7369 SMITH      CLERK           7902 17-DEC-80          800
+        20
+
+      7499 ALLEN      SALESMAN        7698 20-FEB-81         1600        300
+        30
+
+      7782 CLARK      MANAGER         7839 09-JUN-81         2450
+        10
+
+=====================================================================================================================
