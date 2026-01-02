@@ -1,0 +1,163 @@
+**MULTIPLE ROW SUBQUERY**
+---------------------------------
+1.Write a query to display the employee records whose job title is 
+            same as SMITH,BLAKE from emp table?
+
+ANS:=
+   **INNER QUERY-
+SQL> SELECT JOB FROM EMP WHERE ENAME IN ('SMITH','BLAKE');
+
+SQL> SELECT * FROM EMP WHERE JOB IN (SELECT JOB FROM EMP WHERE ENAME IN ('SMITH','BLAKE'));
+
+============================================================================
+
+2.Write a query to display the male employees who are getting more
+   salary than the all the salaries of female employees?
+
+SQL> select * from emp666;
+
+       EMPNO      ENAME       GENDER         SAL
+      -------  ----------    --------     --------
+         1      ANUSHKA         F           4000
+         2      SURYA           M           5000
+         3      RADHIKA         F           3000
+         4      GOWTHAM         M           2000
+         5      KAVYA           F           2000
+
+CREATE TABLE EMP666
+(
+EMPNO NUMBER(4),
+ENAME VARCHAR2(10),
+GENDER VARCHAR2(10),
+SAL NUMBER(10)
+);
+
+
+INSERT INTO EMP666 VALUES(1,'ANUSHKA','F',4000);
+INSERT INTO EMP666 VALUES(2,'SURYA','M',5000);
+INSERT INTO EMP666 VALUES(3,'RADHIKA','F',3000);
+INSERT INTO EMP666 VALUES(4,'GOWTHAM','M',2000);
+INSERT INTO EMP666 VALUES(5,'KAVYA','F',2000);
+COMMIT;
+
+ANS:=
+*INNER QUERY=
+  SQL> SELECT * FROM EMP666 WHERE GENDER='M';
+
+     EMPNO ENAME      GENDER            SAL
+---------- ---------- ---------- ----------
+         2 SURYA      M                5000
+         4 GOWTHAM    M                2000
+---------------------------------------------
+*OUTER QUERY=
+SQL> SELECT * FROM EMP666 WHERE GENDER='M' AND SAL>1000;
+
+     EMPNO ENAME      GENDER            SAL
+---------- ---------- ---------- ----------
+         2 SURYA      M                5000
+         4 GOWTHAM    M                2000
+----------------------------------------------
+*SUBQUERY=
+SQL> SELECT * FROM EMP666 WHERE GENDER='M' AND SAL>(SELECT MAX(SAL) FROM EMP666 WHERE GENDER='F');
+
+     EMPNO ENAME      GENDER            SAL
+---------- ---------- ---------- ----------
+         2 SURYA      M                5000
+
+========================================================================
+3.Write a query to display the employee records who are getting more
+  salary than the salaries of all managers from emp table?
+
+NOTE:-if sal> all list of values then condition is true
+
+ANS:
+*INNER QUERY=
+SQL> SELECT SAL FROM EMP WHERE JOB='MANAGER';
+
+       SAL
+----------
+      2975
+      2850
+      2450
+*SUBQUERY=
+
+SQL> SELECT * FROM EMP WHERE SAL>ALL (SELECT SAL FROM EMP WHERE JOB='MANAGER');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000
+        20
+
+      7902 FORD       ANALYST         7566 03-DEC-81       3000
+        20
+
+      7839 KING       PRESIDENT            17-NOV-81       5000
+        10
+===========================================================================
+4.Write a query to display the employees records who are getting more 
+  salary than the salaries of any of the manager from emp table?
+
+NOTE:-if sal>any one of the list of values.
+
+ANS:
+SQL> SELECT*FROM EMP WHERE SAL>ANY(SELECT SAL FROM EMP WHERE JOB='MANAGER');
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7839 KING       PRESIDENT            17-NOV-81       5000
+        10
+
+      7902 FORD       ANALYST         7566 03-DEC-81       3000
+        20
+
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000
+        20
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7566 JONES      MANAGER         7839 02-APR-81       2975
+        20
+
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850
+        30
+===================================================================
+5.Write a query to display the employees who are getting more salary
+  than the any salary of 10th department from emp table ?
+ANS:
+SQL> SELECT * FROM EMP WHERE SAL> ANY(SELECT SAL FROM EMP WHERE DEPTNO=10);
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000                    20
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+
+
+  =======================================================================
+6.Write a query to display the employees who are working in either sales or research
+  department from emp,dept?
+ANS:
+ SQL> SELECT * FROM EMP WHERE DEPTNO = ANY(SELECT DEPTNO FROM DEPT WHERE DNAME IN ('SALES' ,'RESERCH'));
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30
+
+=============================================================================
