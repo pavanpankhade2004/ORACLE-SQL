@@ -1,0 +1,71 @@
+***WITHOUT PARTITION BY CLAUSE***
+--------------------------------
+Q1)WAQ TO DISPLAY EMPLOYEES RANKS BASED ON THEIR SALARIES?
+ANS:=
+SQL> SELECT EMPNO,ENAME,SAL, DENSE_RANK()OVER(ORDER BY SAL DESC)AS RANKS FROM EMP;
+
+     EMPNO ENAME             SAL      RANKS
+---------- ---------- ---------- ----------
+      7839 KING             5000          1
+      7902 FORD             3000          2
+      7788 SCOTT            3000          2
+      7566 JONES            2975          3
+      7698 BLAKE            2850          4
+      7782 CLARK            2450          5
+      7499 ALLEN            1600          6
+      7844 TURNER           1500          7
+      7934 MILLER           1300          8
+      7521 WARD             1250          9
+      7654 MARTIN           1250          9
+
+     EMPNO ENAME             SAL      RANKS
+---------- ---------- ---------- ----------
+      7876 ADAMS            1100         10
+      7900 JAMES             950         11
+      7369 SMITH             800         12
+========================================================================
+Q2)WAQ TO DISPLAY THE FIRST RANK EMPLOYEES DETAILS FROM A TABLE?
+ANS:=
+  SQL> SELECT*FROM (SELECT EMPNO,ENAME,SAL,DENSE_RANK()OVER(ORDER BY SAL DESC)AS RANKS FROM EMP)WHERE RANKS=1;
+
+     EMPNO ENAME             SAL      RANKS
+---------- ---------- ---------- ----------
+      7839 KING             5000          1
+==========================================================================
+
+***WITH PARTITION BY CLAUSE:=
+-----------------------------
+Q1)WAQ TO DISPLAY EMPLOYEES RANKS BASED ON THEIR SALARIES ALONG WITH THEIR DEPTNO WISE?
+ANS:=
+ SQL> SELECT EMPNO,ENAME,SAL, DEPTNO,DENSE_RANK()OVER(PARTITION BY DEPTNO ORDER BY SAL DESC)AS RANKS FROM EMP;
+
+     EMPNO ENAME             SAL     DEPTNO      RANKS
+---------- ---------- ---------- ---------- ----------
+      7839 KING             5000         10          1
+      7782 CLARK            2450         10          2
+      7934 MILLER           1300         10          3
+      7788 SCOTT            3000         20          1
+      7902 FORD             3000         20          1
+      7566 JONES            2975         20          2
+      7876 ADAMS            1100         20          3
+      7369 SMITH             800         20          4
+      7698 BLAKE            2850         30          1
+      7499 ALLEN            1600         30          2
+      7844 TURNER           1500         30          3
+
+     EMPNO ENAME             SAL     DEPTNO      RANKS
+---------- ---------- ---------- ---------- ----------
+      7654 MARTIN           1250         30          4
+      7521 WARD             1250         30          4
+      7900 JAMES             950         30          5
+=========================================================================
+Q2)WAQ TO DISPLAY THE 3RD RANK EMPLOYEE DETAILS FROM EACH DEPTNO WISE?
+ANS:=
+ SQL> SELECT*FROM (SELECT EMPNO,ENAME,SAL,DEPTNO,DENSE_RANK()OVER(PARTITION BY DEPTNO ORDER BY SAL DESC)AS RANKS FROM EMP)WHERE RANKS=3;
+
+     EMPNO ENAME             SAL     DEPTNO      RANKS
+---------- ---------- ---------- ---------- ----------
+      7934 MILLER           1300         10          3
+      7876 ADAMS            1100         20          3
+      7844 TURNER           1500         30          3
+=========================================================================
