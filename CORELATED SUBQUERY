@@ -1,0 +1,138 @@
+**CORELATED SUBQUERY***
+=====================
+Q1)WAQ TO FIND OUT THE 3RD HIGHEST SALARY EMPLOYEES DETAILS?
+ANS:=
+SQL> SELECT * FROM EMP E1 WHERE 2=(SELECT COUNT(DISTINCT SAL)FROM EMP E2 WHERE E2.SAL>E1.SAL);
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7566 JONES      MANAGER         7839 02-APR-81       2975
+        20
+==================================================================================================
+Q2)WAQ TO FIND OUT THE FIRST LOWEST SALARY EMPLOYEES DEATAILS?
+ANS:=
+SQL> SELECT * FROM EMP E1 WHERE 0=(SELECT COUNT(DISTINCT SAL)FROM EMP E2 WHERE E2.SAL<E1.SAL);
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800
+        20
+==================================================================================================
+Q3)WAQ TO DISPLAY IN TOP 3 HIGHEST SALARIES EMPLOYEES DETAILS
+ANS:=
+SQL> SELECT * FROM EMP E1 WHERE 3>(SELECT COUNT(DISTINCT SAL)FROM EMP E2 WHERE E2.SAL>E1.SAL);
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7566 JONES      MANAGER         7839 02-APR-81       2975
+        20
+
+      7788 SCOTT      ANALYST         7566 09-DEC-82       3000
+        20
+
+      7839 KING       PRESIDENT            17-NOV-81       5000
+        10
+
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7902 FORD       ANALYST         7566 03-DEC-81       3000
+        20
+===================================================================================================
+Q4)WAQ TO DISPLAY IN TOP 3 LOWEST SALARIES EMPLOYEES DETAILS
+ANS:=
+SQL> SELECT * FROM EMP E1 WHERE 3>(SELECT COUNT(DISTINCT SAL)FROM EMP E2 WHERE E2.SAL<E1.SAL);
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM
+---------- ---------- --------- ---------- --------- ---------- ----------
+    DEPTNO
+----------
+      7369 SMITH      CLERK           7902 17-DEC-80        800
+        20
+
+      7876 ADAMS      CLERK           7788 12-JAN-83       1100
+        20
+
+      7900 JAMES      CLERK           7698 03-DEC-81        950
+        30
+==================================================================================================
+***EXISTS OPERATOR*
+Q5)WAQ TO DISPLAY DEPARTMENTS IN WHICH DEPARTMENTS THE EMPLOYEE ARE WORKING (EXISTING)? 
+ANS=
+SQL> SELECT DNAME FROM DEPT D WHERE EXISTS(SELECT DEPTNO FROM EMP E WHERE E.DEPTNO=D.DEPTNO);
+
+DNAME
+--------------
+RESEARCH
+SALES
+ACCOUNTING
+=====================================================================================Q6)WAQ TO DISPLAY DEPARTMENTS IN WHICH DEPARTMENTS THE EMPLOYEE ARE  NOT WORKING ( NOT EXISTING)?
+ANS:=
+SQL> SELECT DNAME FROM DEPT D WHERE NOT EXISTS(SELECT DEPTNO FROM EMP E WHERE E.DEPTNO=D.DEPTNO);
+
+DNAME
+--------------
+OPERATIONS
+================================================================================
+Q7)WAQ TO DISPLAY EMPLOYEES WHO HAVE DEPARTMENT FROM EMP DEPARTMENTS TABLE?
+ANS:=
+SQL> SELECT ENAME FROM EMP E WHERE EXISTS(SELECT DEPTNO FROM DEPT D WHERE D.DEPTNO=E.DEPTNO);
+
+ENAME
+----------
+CLARK
+KING
+MILLER
+SMITH
+JONES
+SCOTT
+ADAMS
+FORD
+ALLEN
+WARD
+MARTIN
+
+ENAME
+----------
+BLAKE
+TURNER
+JAMES
+========================================================================
+Q8)WAQ TO DISPLAY EMPLOYEES WHO ARE EXISTING UNDER ACCOUNTING,SALES DEPARTMENTS? 
+ANS:=
+SQL> SELECT ENAME,DEPTNO FROM EMP  E WHERE EXISTS(SELECT DEPTNO FROM DEPT D WHERE D.DEPTNO=E.DEPTNO AND DNAME IN('ACCOUNTING','SALES'));
+
+ENAME          DEPTNO
+---------- ----------
+CLARK              10
+KING               10
+MILLER             10
+ALLEN              30
+WARD               30
+MARTIN             30
+BLAKE              30
+TURNER             30
+JAMES              30
+
+=======================================================================
+Q9)WAQ TO DISPLAY EMPLOYEES WHO ARE NOT EXISTING UNDER ACCOUNTING,SALES DEPARTMENTS?
+ANS:=
+SQL> SELECT ENAME,DEPTNO FROM EMP  E WHERE NOT EXISTS(SELECT DEPTNO FROM DEPT D WHERE D.DEPTNO=E.DEPTNO AND DNAME IN('ACCOUNTING','SALES'));
+
+ENAME          DEPTNO
+---------- ----------
+SMITH              20
+JONES              20
+SCOTT              20
+ADAMS              20
+FORD               20
+
+========================================================================
